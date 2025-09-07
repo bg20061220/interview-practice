@@ -1,23 +1,29 @@
-import React , {useState} from "react";
+import React , {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import questions from "../utils/questionData";
+
 function Interview({answers , setAnswers}) {
-    const[currentAnswer ,  setCurrentAnswer] = useState("")
+    const[currentAnswer ,  setCurrentAnswer] = useState("");
+    const [question , setQuestion] = useState("");
     const navigate = useNavigate(); 
 
+    useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    setQuestion(questions[randomIndex]);
+    }, []);
     const handleSubmit = () => {
-        setAnswers([...answers, currentAnswer]) // add current answers
+        setAnswers([...answers,  currentAnswer]) // add current answers
         setCurrentAnswer("") // clear input
         navigate("/results")
     }
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>Interview Page</h1>
-      <input
-        type="text"
+      <p> <strong>Question : </strong> {question} </p>
+        <textarea
         value={currentAnswer}
         onChange={(e) => setCurrentAnswer(e.target.value)}
-        placeholder="Type your answer here"
-        style={{ padding: "10px", width: "300px" }}
+        placeholder="Type your answer here..."
       />
       <br />
       <button onClick={handleSubmit} style={{ marginTop: "20px" }}>
