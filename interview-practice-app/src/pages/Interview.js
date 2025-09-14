@@ -12,7 +12,11 @@ function Interview({answers , setAnswers}) {
     setQuestion(questions[randomIndex]);
     }, []);
     const handleSubmit = () => {
-        setAnswers([...answers,  currentAnswer]) // add current answers
+        console.log(currentAnswer)
+         setAnswers([
+      ...answers, 
+      { question: question, answer: currentAnswer } // store both questions and answers
+    ]);
         setCurrentAnswer("") // clear input
         navigate("/results")
     }

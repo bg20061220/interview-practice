@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React , {useEffect} from "react";
 import evaluateAnswer from "../utils/evaluate";
 
 function ResultsPage({ answers }) {
+ useEffect(() => {
+    console.log("Updated answers:", answers);
+  }, [answers]); 
   const navigate = useNavigate();
   return (
     <div style={{ maxWidth: "700px", margin: "50px auto", textAlign: "left" }}>
