@@ -10,7 +10,7 @@ function Home() {
       {/* Section 1 */}
       <div className  = "section section1">   
           <h1>CrackBig</h1>
-          <p className="text-lg mb-6 max-w-xs">Practice your university interview questions and get feedback!</p>
+          <p >Practice your university interview questions and get feedback!</p>
           <div> 
             {/* <img> </img>
             <img> </img> */}
@@ -27,16 +27,12 @@ function Home() {
               
               <div className="program-card">Mathematics</div>
               <div className="program-card">Computer Science</div>
-              <div className="program-card">Engineering</div>
+              <div className="program-card"> Waterloo Engineering</div>
               <div className="program-card">Business</div>
               <div className="program-card">Medicine</div>
 
               {/* duplicate for seamless loop */}
-              <div className="program-card">Mathematics</div>
-              <div className="program-card">Computer Science</div>
-              <div className="program-card">Engineering</div>
-              <div className="program-card">Business</div>
-              <div className="program-card">Medicine</div>
+             
 
            </div>
            </div>

@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import questions from "../utils/questionData";
+import '../App.css' ;
 
 function Interview({answers , setAnswers}) {
     const[currentAnswer ,  setCurrentAnswer] = useState("");
