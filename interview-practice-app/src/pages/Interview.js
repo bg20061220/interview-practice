@@ -1,17 +1,19 @@
-import React , {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import questions from "../utils/questionData";
-import '../App.css' ;
+import WrittenQuestion from "../components/WrittenQuestion";
+import VideoQuestion from "../components/VideoQuestion";
+import '../App.css';
 
-function Interview({answers , setAnswers}) {
-    const[currentAnswer ,  setCurrentAnswer] = useState("");
-    const [question , setQuestion] = useState("");
+function Interview({answers, setAnswers}) {
+    const [currentAnswer, setCurrentAnswer] = useState("");
+    const [question, setQuestion] = useState(null);
     const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
     const navigate = useNavigate(); 
 
     useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    setQuestion(questions[randomIndex]);
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        setQuestion(questions[randomIndex]);
     }, []);
 
     useEffect(() => {
@@ -35,13 +37,13 @@ function Interview({answers , setAnswers}) {
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
     const handleSubmit = () => {
-        console.log(currentAnswer)
-         setAnswers([
-      ...answers, 
-      { question: question, answer: currentAnswer } // store both questions and answers
-    ]);
-        setCurrentAnswer("") // clear input
-        navigate("/results")
+        console.log(currentAnswer);
+        setAnswers([
+            ...answers,
+            { question: question?.text || question, answer: currentAnswer, type: question?.type || "written" }
+        ]);
+        setCurrentAnswer("");
+        navigate("/results");
     }
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -51,12 +53,17 @@ function Interview({answers , setAnswers}) {
           Time Remaining: {formatTime(timeLeft)}
         </h2>
       </div>
-      <p> <strong>Question : </strong> {question} </p>
-        <textarea
-        value={currentAnswer}
-        onChange={(e) => setCurrentAnswer(e.target.value)}
-        placeholder="Type your answer here..."
-      />
+      <p><strong>Question: </strong>{question?.text || question}</p>
+      <div style={{ margin: "20px 0" }}>
+        {question?.type === "video" ? (
+          <VideoQuestion setCurrentAnswer={setCurrentAnswer} />
+        ) : (
+          <WrittenQuestion
+            currentAnswer={currentAnswer}
+            setCurrentAnswer={setCurrentAnswer}
+          />
+        )}
+      </div>
       <br />
       <button onClick={handleSubmit} style={{ marginTop: "20px" }}>
         Submit Answer
