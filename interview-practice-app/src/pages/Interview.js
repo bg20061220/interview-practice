@@ -9,6 +9,7 @@ function Interview({answers, setAnswers}) {
     const [currentAnswer, setCurrentAnswer] = useState("");
     const [question, setQuestion] = useState(null);
     const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+    const[analysisMethod, setAnalysisMethod] = useState("basic");
     const navigate = useNavigate(); 
 
     useEffect(() => {
@@ -36,14 +37,15 @@ function Interview({answers, setAnswers}) {
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(currentAnswer);
+       
         setAnswers([
             ...answers,
-            { question: question?.text || question, answer: currentAnswer, type: question?.type || "written" }
+            { question: question?.text || question, answer: currentAnswer, type: question?.type || "written" , evaluationMethod : analysisMethod, }
         ]);
         setCurrentAnswer("");
-        navigate("/results");
+        navigate("/results" , {state : { latestAnswer : currentAnswer , evaluationMethod : analysisMethod}});
     }
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -65,9 +67,34 @@ function Interview({answers, setAnswers}) {
         )}
       </div>
       <br />
-      <button onClick={handleSubmit} style={{ marginTop: "20px" }}>
+      
+      <div>
+  <label>
+    <input
+      type="radio"
+      name="method"
+      value="basic"
+      checked={analysisMethod === "basic"}
+      onChange={() => setAnalysisMethod("basic")}
+    />
+    Basic System
+  </label>
+  
+  <label>
+    <input
+      type="radio"
+      name="method"
+      value="claude"
+      checked={analysisMethod === "claude"}
+      onChange={() => setAnalysisMethod("claude")}
+    />
+    Claude API
+  </label>
+</div>
+  {<button onClick={handleSubmit} style={{ marginTop: "20px" }}>
         Submit Answer
-      </button>
+      </button> }
+
     </div>
   );
 }

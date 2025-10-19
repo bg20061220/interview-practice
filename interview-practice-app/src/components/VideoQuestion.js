@@ -33,8 +33,13 @@ function VideoQuestion({ setCurrentAnswer }) {
       };
 
       recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-      };
+  if(event.error === 'network') {
+    console.warn('Network error in speech recognition. Try speaking again or check connection.');
+  } else {
+    console.error('Speech recognition error:', event.error);
+  }
+};
+
     }
 
     return () => {
@@ -221,6 +226,20 @@ function VideoQuestion({ setCurrentAnswer }) {
           "Speech recognition will start when you begin recording"
         }
       </div>
+      <div style={{
+  marginTop: '20px',
+  maxWidth: '400px',
+  textAlign: 'center',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '10px',
+  padding: '10px',
+  border: '1px solid #ccc'
+}}>
+  <strong>Transcript:</strong>
+  <p style={{ color: '#333', fontSize: '14px' }}>
+    {transcription || "🎙️ No speech detected yet... start speaking after hitting record!"}
+  </p>
+</div>
     </div>
   );
 }
