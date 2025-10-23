@@ -21,10 +21,19 @@ app.post('/api/analyze', async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `You are an expert interview coach evaluating university application interview answers. Please analyze the following answer:\n\n${answer}\n\nProvide strengths, weaknesses, and improvement suggestions.`
+content: `You are an expert university admissions coach. Evaluate the following interview answer. 
+Do not comment on the person, only on the answer itself. Provide:
+
+1. Strengths of the answer (what is done well in how it is written or explained)
+2. Weaknesses of the answer (areas where the answer could be clearer, more concise, or more convincing)
+3. Suggestions for improvement (how the answer could be better)
+
+Use max 50 words per section.
+
+Answer: ${answer}`
         }
       ],
-      max_tokens: 100,
+      max_tokens: 200,
     });
 
     res.json({ analysis: response.content[0].text });
